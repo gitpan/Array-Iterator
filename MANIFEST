@@ -1,0 +1,7 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+lib/Array/Iterator.pm
+t/10_Array_Iterator_test.t
+t/20_Array_Iterator_exceptions.t
