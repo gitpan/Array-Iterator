@@ -3,7 +3,7 @@ package Array::Iterator;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 ### constructor
 
@@ -33,7 +33,7 @@ sub new {
 
 ### methods
 
-# private methods
+# template methods
 
 sub _init {
 	my ($self, $length, $iteratee) = @_;
@@ -51,7 +51,7 @@ sub _getItem {
 
 # public methods
 
-# this defines the minimal interface
+# this defines the interface
 # an iterator object will have
 	
 sub hasNext {
@@ -80,12 +80,12 @@ sub peek {
 
 sub current {
 	my ($self) = @_;
-	return $self->_getItem($self->{_iteratee}, $self->{_current_index});	
+	return $self->_getItem($self->{_iteratee}, $self->{_current_index} - 1);	
 }
 
 sub currentIndex {
 	my ($self) = @_;
-	return $self->{_current_index};
+	return $self->{_current_index} - 1;
 }
 
 1;
@@ -174,11 +174,11 @@ B<NOTE:> Prior to version 0.03 this method would throw an exception if called ou
 
 =item B<current>
 
-This method can be used to get the current item in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. 
+This method can be used to get the current item in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. This value will match the last value dispensed by C<next> or C<getNext>.
 
 =item B<currentIndex>
 
-This method can be used to get the current index in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. 
+This method can be used to get the current index in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. This value will match the index of the last value dispensed by C<next> or C<getNext>.
 
 =back
 

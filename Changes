@@ -1,5 +1,16 @@
 Revision history for Perl extension Array::Iterator.
 
+0.04 Thurs May 6 2004
+    - Changed current and currentIndex to refer to the 
+      same value (and index) of the last item dispensed
+      by the next method. This is more in line with what
+      they should do. Prior to this version they returned
+      the current index which was actually the one past the 
+      last call to next.
+    - tested these changes and altered tests which used the 
+      old versions.
+    - updated documentation to reflect change
+
 0.03  Sun May 2 2004
     - Added currentIndex method, and added tests for it.
     - Added getNext method and added tests for it.

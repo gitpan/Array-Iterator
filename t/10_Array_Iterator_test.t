@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 42;
+use Test::More tests => 47;
 
 BEGIN { 
     use_ok('Array::Iterator') 
@@ -72,7 +72,8 @@ my $i3 = Array::Iterator->new(\@control);
 
 my $current;
 while ($current = $i3->getNext()) {
-    cmp_ok($current, '==', $control[$i3->currentIndex() - 1], '... these should be equal (getNext)');
+    cmp_ok($current, '==', $control[$i3->currentIndex()], '... these should be equal (getNext)');
+    cmp_ok($current, '==', $i3->current(), '... these should be equal (getNext)');
 }
 
 ok(!defined($iterator->getNext()), '... we should get undef');
