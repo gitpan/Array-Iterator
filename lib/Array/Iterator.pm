@@ -3,7 +3,7 @@ package Array::Iterator;
 use strict;
 use warnings;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 ### constructor
 
@@ -33,7 +33,7 @@ sub new {
 
 ### methods
 
-# template methods
+# private methods
 
 sub _init {
 	my ($self, $length, $iteratee) = @_;
@@ -44,7 +44,31 @@ sub _init {
 	$self->{_iteratee} = $iteratee;
 }
 
+# protected method
+
+# this can be used in a subclass to access the value
+
+# we need to alter this so its an lvalue
+sub _current_index : lvalue { 
+    (UNIVERSAL::isa((caller)[0], __PACKAGE__)) 
+        || die "Illegal Operation : This method can only be called by a subclass";
+    $_[0]->{_current_index} 
+}
+
+# this we should never need to alter
+# so we dont make it a lvalue
+sub _iteratee { 
+    (UNIVERSAL::isa((caller)[0], __PACKAGE__)) 
+        || die "Illegal Operation : This method can only be called by a subclass";
+    $_[0]->{_iteratee} 
+}
+
+# we move this from a private method
+# to a protected one, and check our access 
+# as well
 sub _getItem {
+    (UNIVERSAL::isa((caller)[0], __PACKAGE__)) 
+        || die "Illegal Operation : This method can only be called by a subclass";
 	my ($self, $iteratee, $index) = @_;
 	return $iteratee->[$index];
 }
@@ -80,12 +104,17 @@ sub peek {
 
 sub current {
 	my ($self) = @_;
-	return $self->_getItem($self->{_iteratee}, $self->{_current_index} - 1);	
+	return $self->_getItem($self->{_iteratee}, $self->currentIndex());	
 }
 
 sub currentIndex {
 	my ($self) = @_;
-	return $self->{_current_index} - 1;
+	return ($self->{_current_index} != 0) ? $self->{_current_index} - 1 : 0;
+}
+
+sub getLength {
+    my ($self) = @_;
+    return $self->{_length};
 }
 
 1;
@@ -174,27 +203,49 @@ B<NOTE:> Prior to version 0.03 this method would throw an exception if called ou
 
 =item B<current>
 
-This method can be used to get the current item in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. This value will match the last value dispensed by C<next> or C<getNext>.
+This method can be used to get the current item in the iterator. It is non-destructive, meaning that it does not advance the internal pointer. This value will match the last value dispensed by C<next> or C<getNext>.
 
 =item B<currentIndex>
 
-This method can be used to get the current index in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. This value will match the index of the last value dispensed by C<next> or C<getNext>.
+This method can be used to get the current index in the iterator. It is non-destructive, meaning that it does not advance the internal pointer. This value will match the index of the last value dispensed by C<next> or C<getNext>.
+
+=item B<getLength>
+
+This is a basic accessor for getting the length of the array being iterated over.
 
 =back
 
-=head2 Template Methods
+=head2 Protected Methods
 
-These methods are not to be used publically, and are documented here for those who want to extend this class. These two methods provide all the storage (C<_init>) and access (C<_getItem>) to the elements being iterated over. By overriding these two methods (and probably C<new> as well), you can change the behavior of the iterator and still have the other methods behave accordingly.
+These methods are I<protected>, in the Java/C++ sense of the word. They can only be called internally by subclasses of Array::Iterator, an exception is thrown if that condition is violated. They are documented here only for people interested in subclassing Array::Iterator. 
 
 =over 4
 
-=item B<_init ($length, $iteratee)>
+=item B<_current_index>
 
-This method simply places the item to iterate over (C<$iteratee>) and its calculated length (C<$length>) into slots where the other methods expect to find them. 
+An lvalue-ed subroutine which allows access to the iterator's internal pointer.
+
+=item B<_iteratee>
+
+This returns the item being iteratated over, in our case an array.
 
 =item B<_getItem ($iteratee, $index)>
 
-This method handles all the element accessing. It takes an iteratee and and index, and returns the item found at that index.
+This method is used by all other routines to access items with. Given the iteratee and an index, it will return the item being stored in the C<$iteratee> at the index of C<$index>. 
+
+=back
+
+=head1 TO DO
+
+=over 4
+
+=item Improve BiDirectional Test suite
+
+I want to test the back and forth a little more, make sure they work well with one another.
+
+=item Other Iterators
+
+Array::Iterator::BiDirectional::Circular, Array::Iterator::Skipable and Array::Iterator::BiDirectional::Skipable are just a few ideas I have had. I am going to hold off for now until I am sure they are actually useful.
 
 =back
 
@@ -206,21 +257,47 @@ None that I am aware of. The code is pretty thoroughly tested (see L<CODE COVERA
 
 I use B<Devel::Cover> to test the code coverage of my tests, below is the B<Devel::Cover> report on this module's test suite.
 
- -------------------------------- ------ ------ ------ ------ ------ ------ ------
- File                               stmt branch   cond    sub    pod   time  total
- -------------------------------- ------ ------ ------ ------ ------ ------ ------
- /Array/Iterator.pm                100.0  100.0   66.7  100.0  100.0    8.8   97.5
- t/10_Array_Iterator_test.t        100.0  100.0    n/a    n/a    n/a   59.4  100.0
- t/20_Array_Iterator_exceptions.t  100.0    n/a    n/a  100.0    n/a   31.8  100.0
- -------------------------------- ------ ------ ------ ------ ------ ------ ------
- Total                             100.0  100.0   66.7  100.0  100.0  100.0   98.9
- -------------------------------- ------ ------ ------ ------ ------ ------ ------
+ ---------------------------------------- ------ ------ ------ ------ ------ ------ ------
+ File                                       stmt branch   cond    sub    pod   time  total
+ ---------------------------------------- ------ ------ ------ ------ ------ ------ ------
+ /Array/Iterator.pm                        100.0   87.5   66.7  100.0  100.0   13.2   95.0
+ /Array/Iterator/BiDirectional.pm          100.0  100.0    n/a  100.0  100.0    1.9  100.0
+ /Array/Iterator/Circular.pm               100.0  100.0    n/a  100.0  100.0    0.5  100.0
+ /Array/Iterator/Reusable.pm               100.0    n/a    n/a  100.0  100.0    0.1  100.0
+ t/10_Array_Iterator_test.t                100.0  100.0    n/a  100.0    n/a   58.1  100.0
+ t/20_Array_Iterator_exceptions.t          100.0    n/a    n/a  100.0    n/a    5.3  100.0
+ t/30_Array_Iterator_BiDirectional_test.t  100.0  100.0    n/a  100.0    n/a    8.6  100.0
+ t/40_Array_Iterator_Circular_test.t       100.0   75.0  100.0  100.0    n/a    8.5   97.5
+ t/50_Array_Iterator_Reusable_test.t       100.0    n/a    n/a  100.0    n/a    3.8  100.0
+ ---------------------------------------- ------ ------ ------ ------ ------ ------ ------
+ Total                                     100.0   90.5   77.8  100.0  100.0  100.0   98.6
+ ---------------------------------------- ------ ------ ------ ------ ------ ------ ------
 
 =head1 SEE ALSO
 
-Design Patterns by the Gang of Four. Specifically the Iterator pattern.
+This module now includes several subclasses of Array::Iterator which add certain behaviors to Array::Iterator, they are:
 
-Part of the interface for this Iterator is based upon the Java Iterator interface. 
+=over 4
+
+=item B<Array::Iterator::BiDirectional>
+
+Adds the ability to move backwards and forwards through the array.
+
+=item B<Array::Iterator::Circular>
+
+When this iterator reaches the end of its list, it will loop back to the start again. 
+
+=item B<Array::Iterator::Reusable>
+
+This iterator can be reset to its begining and used again.
+
+=back
+
+The Design Patterns book by the Gang of Four, specifically the Iterator pattern.
+
+Some of the interface for this class is based upon the Java Iterator interface. 
+
+=head1 OTHER ITERATOR MODULES
 
 There are a number of modules on CPAN with the word Iterator in them. Most of them are actually iterators included inside other modules, and only really useful within that parent modules context. There are however some other modules out there that are just for pure iteration. I have provided a list below of the ones I have found, if perhaps you don't happen to like the way I do it. 
 

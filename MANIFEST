@@ -3,5 +3,11 @@ Makefile.PL
 MANIFEST
 README
 lib/Array/Iterator.pm
+lib/Array/Iterator/BiDirectional.pm
+lib/Array/Iterator/Circular.pm
+lib/Array/Iterator/Reusable.pm
 t/10_Array_Iterator_test.t
 t/20_Array_Iterator_exceptions.t
+t/30_Array_Iterator_BiDirectional_test.t
+t/40_Array_Iterator_Circular_test.t
+t/50_Array_Iterator_Reusable_test.t

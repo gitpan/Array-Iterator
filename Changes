@@ -1,5 +1,19 @@
 Revision history for Perl extension Array::Iterator.
 
+0.05 Mon July 15, 2004
+    - added a getLegnth method and tested it
+    - changed how currentIndex deals with index of 0, it
+      now does it correctly. 
+    - made current use currentIndex to get the current
+      index
+    - made Array::Iterator more subclass friendly by adding
+      some 'protected' methods to access some fields with
+    - added some subclasses:
+        - Array::Iterator::BiDirectional
+        - Array::Iterator::Circular
+        - Array::Iterator::Reusable        
+    - created tests for all these new modules
+
 0.04 Thurs May 6 2004
     - Changed current and currentIndex to refer to the 
       same value (and index) of the last item dispensed

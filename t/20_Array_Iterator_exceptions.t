@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More tests => 13;
 use Test::Exception;
 
 BEGIN { 
@@ -49,7 +49,7 @@ isa_ok($iterator, 'Array::Iterator');
 my @_control;
 push @_control => $iterator->next() while $iterator->hasNext();
 
-ok(!$iterator->hasNext());
+ok(!$iterator->hasNext(), '... we are out of elements');
 ok(eq_array(\@control, \@_control), '.. make sure all are exhausted');
 
 # test that next will croak if it is called passed the end
@@ -57,6 +57,20 @@ throws_ok {
     $iterator->next();
 } qr/^Out Of Bounds \: no more elements/, 
   '... we got the error we expected';
+  
+# check our protected methods
+throws_ok {
+    $iterator->_current_index();
+} qr/Illegal Operation/, '... got the error we expected';
+  
+throws_ok {
+    $iterator->_iteratee();
+} qr/Illegal Operation/, '... got the error we expected';
+  
+throws_ok {
+    $iterator->_getItem();
+} qr/Illegal Operation/, '... got the error we expected';
+  
 
 # -----------------------------------------------
 # NOTE:
