@@ -3,7 +3,7 @@ package Array::Iterator;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 ### constructor
 
@@ -119,7 +119,7 @@ Array::Iterator - A simple Iterator class for iterating over Perl arrays
 
 This class provides a very simple iterator interface. It is is uni-directional and can only be used once. It provides no means of reverseing or reseting the iterator. It is not recommended to alter the array during iteration, however no attempt is made to enforce this (although I will if I can find an efficient means of doing so). This class only intends to provide a clear and simple means of generic iteration, nothing more (yet).
 
-This is the 0.01 release of this module, but it has been in use now for about a year in production systems without issue. I plan on releasing a few more versions of this code as I tweak and test it more before I will consider it 1.0, but it can be considered reasonable stable for production use if you like. 
+This is the 0.02 release of this module, but it has been in use now for about a year in production systems without issue. I plan on releasing a few more versions of this code as I tweak and test it more before I will consider it 1.0, but it can be considered reasonable stable for production use if you like. 
 
 =head1 METHODS
 

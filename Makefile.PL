@@ -3,9 +3,9 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'		=> 'Array::Iterator',
-    'VERSION_FROM'	=> 'Iterator.pm', # finds $VERSION
+    'VERSION_FROM'	=> 'lib/Array/Iterator.pm', # finds $VERSION
     'PREREQ_PM'		=> {
 		'Test::More'      => .47,
 		'Test::Exception' => .15
-            }
+		}
 );
