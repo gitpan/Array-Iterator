@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 11;
+use Test::More tests => 10;
 use Test::Exception;
 
 BEGIN { 
@@ -15,7 +15,7 @@ BEGIN {
 # test that the constructor cannot be empty
 throws_ok {
     my $i = Array::Iterator->new();
-} qr/^Insufficient Arguments \: you must provide an array to iterate over/, 
+} qr/^Insufficient Arguments \: you must provide something to iterate over/, 
   '... we got the error we expected';
 
 # check that it does not allow non-array ref paramaters
@@ -58,9 +58,15 @@ throws_ok {
 } qr/^Out Of Bounds \: no more elements/, 
   '... we got the error we expected';
 
+# -----------------------------------------------
+# NOTE:
+# Test removed, peek no longer dies when it reaches
+# beyond the iterators bounds, it returns undef instead
+# -----------------------------------------------
 # test that peek will croak if it is called passed the end
-throws_ok {
-    $iterator->peek();
-} qr/^Out Of Bounds \: cannot peek past the end of the array/, 
-  '... we got the error we expected';
+# throws_ok {
+#     $iterator->peek();
+# } qr/^Out Of Bounds \: cannot peek past the end of the array/, 
+#   '... we got the error we expected';
+# -----------------------------------------------
 

@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 31;
+use Test::More tests => 42;
 
 BEGIN { 
     use_ok('Array::Iterator') 
@@ -24,6 +24,9 @@ can_ok($iterator, '_getItem');
 can_ok($iterator, 'hasNext');
 can_ok($iterator, 'next');
 can_ok($iterator, 'peek');
+can_ok($iterator, 'getNext');
+can_ok($iterator, 'current');
+can_ok($iterator, 'currentIndex');
 
 # now check the behavior
 
@@ -31,25 +34,29 @@ for (my $i = 0; $i < scalar @control; $i++) {
     # we should still have another one
     ok($iterator->hasNext());
     # and out iterator peek should match our control + 1    
-    cmp_ok($iterator->peek(), '==', $control[$i + 1], '... our control should match our iterator')
-        unless (($i + 1) >= scalar @control);
+    unless (($i + 1) >= scalar @control) {
+        cmp_ok($iterator->peek(), '==', $control[$i + 1], 
+               '... our control should match our iterator->peek');
+    }
+    else {
+        ok(!defined($iterator->peek()), '... this should return undef now');
+    }
     # and out iterator should match our control 
-    cmp_ok($iterator->next(), '==', $control[$i], '... our control should match our iterator');
+    cmp_ok($iterator->next(), '==', $control[$i], 
+           '... our control should match our iterator->next');
 }
 
 # we should have no more 
-ok(!$iterator->hasNext());
+ok(!$iterator->hasNext(), '... we should have no more');
 
 # now use an array ref in the constructor 
 # and try using it in this style loop
-my $counter = 0;
 for (my $i = Array::Iterator->new(\@control); $i->hasNext(); $i->next()) {
-	cmp_ok($i->current(), '==', $control[$counter], '... these should be equal');
-	$counter++;
+	cmp_ok($i->current(), '==', $control[$i->currentIndex()], '... these should be equal');
 }
 
 # we should have no more 
-ok(!$iterator->hasNext());
+ok(!$iterator->hasNext(), '... we should have no more');
 
 my $iterator2 = Array::Iterator->new(@control);
 my @acc;
@@ -59,5 +66,17 @@ push @acc, => $iterator2->next() while $iterator2->hasNext();
 ok(eq_array(\@acc, \@control), '... these arrays should be equal');
 
 # we should have no more 
-ok(!$iterator->hasNext());
+ok(!$iterator->hasNext(), '... we should have no more');
+
+my $i3 = Array::Iterator->new(\@control);
+
+my $current;
+while ($current = $i3->getNext()) {
+    cmp_ok($current, '==', $control[$i3->currentIndex() - 1], '... these should be equal (getNext)');
+}
+
+ok(!defined($iterator->getNext()), '... we should get undef');
+
+# we should have no more 
+ok(!$iterator->hasNext(), '... we should have no more');
 

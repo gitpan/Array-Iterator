@@ -1,5 +1,11 @@
 Revision history for Perl extension Array::Iterator.
 
+0.03  Sun May 2 2004
+    - Added currentIndex method, and added tests for it.
+    - Added getNext method and added tests for it.
+    - altered the behavior of peek to not throw an exception.
+    - updated all documentation.
+
 0.02  Mon April 12 2004
     - error in the Makefile.PL file, no changes on this release
 

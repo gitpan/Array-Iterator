@@ -3,14 +3,14 @@ package Array::Iterator;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 ### constructor
 
 sub new {
 	my ($_class, @array) = @_;
 	(@array) 
-        || die "Insufficient Arguments : you must provide an array to iterate over";
+        || die "Insufficient Arguments : you must provide something to iterate over";
 	my $class = ref($_class) || $_class;
 	my $_array;
 	if (scalar @array == 1) {
@@ -66,10 +66,15 @@ sub next {
 	return $self->_getItem($self->{_iteratee}, $self->{_current_index}++);
 }
 
+sub getNext {
+	my ($self) = @_;
+    return undef unless ($self->{_current_index} < $self->{_length});    
+	return $self->_getItem($self->{_iteratee}, $self->{_current_index}++);
+}
+
 sub peek {
 	my ($self) = @_;
-    (($self->{_current_index} + 1) < $self->{_length}) 
-        || die "Out Of Bounds : cannot peek past the end of the array";
+    return undef unless (($self->{_current_index} + 1) < $self->{_length});
 	return $self->_getItem($self->{_iteratee}, ($self->{_current_index} + 1));
 }
 
@@ -78,12 +83,17 @@ sub current {
 	return $self->_getItem($self->{_iteratee}, $self->{_current_index});	
 }
 
+sub currentIndex {
+	my ($self) = @_;
+	return $self->{_current_index};
+}
+
 1;
 __END__
 
 =head1 NAME
 
-Array::Iterator - A simple Iterator class for iterating over Perl arrays
+Array::Iterator - A simple class for iterating over Perl arrays
 
 =head1 SYNOPSIS
 
@@ -95,7 +105,7 @@ Array::Iterator - A simple Iterator class for iterating over Perl arrays
   # create an iterator with an array reference
   my $i = Array::Iterator->new(\@array);
   
-  # a simple loop 
+  # a base iterator example
   while ($i->hasNext()) {
       if ($i->peek() < 50) {
           # ... do something because 
@@ -114,12 +124,16 @@ Array::Iterator - A simple Iterator class for iterating over Perl arrays
     my $current = $i->current();
     # .. do something with current
   }
+  
+  # common perl iterator idiom
+  my $current;
+  while ($current = $i->getNext()) {
+    # ... do something with $current
+  }
 
 =head1 DESCRIPTION
 
 This class provides a very simple iterator interface. It is is uni-directional and can only be used once. It provides no means of reverseing or reseting the iterator. It is not recommended to alter the array during iteration, however no attempt is made to enforce this (although I will if I can find an efficient means of doing so). This class only intends to provide a clear and simple means of generic iteration, nothing more (yet).
-
-This is the 0.02 release of this module, but it has been in use now for about a year in production systems without issue. I plan on releasing a few more versions of this code as I tweak and test it more before I will consider it 1.0, but it can be considered reasonable stable for production use if you like. 
 
 =head1 METHODS
 
@@ -139,25 +153,44 @@ This methods returns a boolean. True (1) if there are still more elements in the
 
 This method returns the next item in the iterator, be sure to only call this once per iteration as it will advance the index pointer to the next item. If this method is called after all elements have been exhausted, an exception will be thrown.
 
+=item B<getNext>
+
+This method returns the next item in the iterator, be sure to only call this once per iteration as it will advance the index pointer to the next item. If this method is called after all elements have been exhausted, it will return undef.
+
+This method was added to allow for a faily common perl iterator idiom of:
+
+  my $current;
+  while ($current = $i->getNext()) {
+      ...
+  }
+
+In this the loop terminates once C<$current> is assigned to a false value. The only problem with this idiom for me is that it does not allow for undefined or false values in the iterator. Of course, if this fits your data, then there is no problem. Otherwise I would recommend the C<hasNext>/C<next> idiom instead.
+
 =item B<peek>
 
-This method can be used to peek ahead at the next item in the iterator. It is non-destructuve, meaning it does not advance the internal pointer. If this method is called and attempts to reach beyond the bounds of the iterator, an exception will be thrown.
+This method can be used to peek ahead at the next item in the iterator. It is non-destructuve, meaning it does not advance the internal pointer. If this method is called and attempts to reach beyond the bounds of the iterator, it will return undef. 
+
+B<NOTE:> Prior to version 0.03 this method would throw an exception if called out of bounds. I decided this was not a good practice, as it made it difficult to be able to peek ahead effectively.
 
 =item B<current>
 
 This method can be used to get the current item in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. 
 
+=item B<currentIndex>
+
+This method can be used to get the current index in the iterator. It is non-destructive, meaning that it does now advance the internal pointer. 
+
 =back
 
-=head2 Private Methods
+=head2 Template Methods
 
-These methods are not to be used publically, and are documented here for those who want to extend this class.
+These methods are not to be used publically, and are documented here for those who want to extend this class. These two methods provide all the storage (C<_init>) and access (C<_getItem>) to the elements being iterated over. By overriding these two methods (and probably C<new> as well), you can change the behavior of the iterator and still have the other methods behave accordingly.
 
 =over 4
 
 =item B<_init ($length, $iteratee)>
 
-This method simply places the item to iterate over (C<$iteratee>) and its calculated length (C<$length>) into slots that C<hasNext>, C<next> and C<peek> expect to find them. 
+This method simply places the item to iterate over (C<$iteratee>) and its calculated length (C<$length>) into slots where the other methods expect to find them. 
 
 =item B<_getItem ($iteratee, $index)>
 
@@ -176,26 +209,42 @@ I use B<Devel::Cover> to test the code coverage of my tests, below is the B<Deve
  -------------------------------- ------ ------ ------ ------ ------ ------ ------
  File                               stmt branch   cond    sub    pod   time  total
  -------------------------------- ------ ------ ------ ------ ------ ------ ------
- /Array/Iterator.pm                100.0  100.0   66.7  100.0  100.0    8.7   96.8
- t/10_Array_Iterator_test.t        100.0  100.0    n/a    n/a    n/a  100.0  100.0
- t/20_Array_Iterator_exceptions.t  100.0    n/a    n/a  100.0    n/a   25.6  100.0
+ /Array/Iterator.pm                100.0  100.0   66.7  100.0  100.0    8.8   97.5
+ t/10_Array_Iterator_test.t        100.0  100.0    n/a    n/a    n/a   59.4  100.0
+ t/20_Array_Iterator_exceptions.t  100.0    n/a    n/a  100.0    n/a   31.8  100.0
  -------------------------------- ------ ------ ------ ------ ------ ------ ------
- Total                             100.0  100.0   66.7  100.0  100.0  100.0   98.3
+ Total                             100.0  100.0   66.7  100.0  100.0  100.0   98.9
  -------------------------------- ------ ------ ------ ------ ------ ------ ------
 
 =head1 SEE ALSO
 
-Gang Of Four Design Patterns Book. Specifically the Iterator pattern.
+Design Patterns by the Gang of Four. Specifically the Iterator pattern.
 
-The interface for this Iterator is based upon the Java Iterator interface.
+Part of the interface for this Iterator is based upon the Java Iterator interface. 
 
-There are other modules out there that do similar things, if you don't happen to like the way I do it.
+There are a number of modules on CPAN with the word Iterator in them. Most of them are actually iterators included inside other modules, and only really useful within that parent modules context. There are however some other modules out there that are just for pure iteration. I have provided a list below of the ones I have found, if perhaps you don't happen to like the way I do it. 
 
 =over 4
 
+=item B<Tie::Array::Iterable>
+
+This module ties the array, something we do not do. But it also makes an attempt to account for, and allow the array to be changed during iteration. It accomplishes this control because the underlying array is tied. As we all know, tie-ing things can be a performance issue, but if you need what this module provides, then it will likely be an acceptable compromise. Array::Iterator makes no attempt to deal with this mid-iteration manipulation problem. In fact it is recommened to not alter your array with Array::Iterator, and if possible we will enforce this in later versions.
+
 =item B<Data::Iter>
 
+This module allows for simple iteratation over both hashes and arrays. It does it by importing several functions which can be used to loop over either type (hash or array) in the same way. It is an interesting module, it differs from Array::Iterator in paradigm (Array::Iterator is more OO) as well as in intent.
+
 =item B<Class::Iterator>
+
+This is essentially a wrapper around a closure based iterator. This method can be very flexible, but at times is difficult to manage due to the inherent complextity of using closures. I actually was a closure-as-iterator fan for a while, but eventually moved away from it in favor of the more plain vanilla means of iteration, like that found Array::Iterator.
+
+=item B<Class::Iter>
+
+This is part of the Class::Visitor module, and is a Visitor and Iterator extensions to Class::Template. Array::Iterator is a standalone module not associated with others.
+
+=item B<Data::Iterator::EasyObj>
+
+Data::Iterator::EasyObj makes your array of arrays into iterator objects. It also has the ability to further nest additional data structures including Data::Iterator::EasyObj objects. Array::Iterator is one dimensional only, and does not attempt to do many of the more advanced features of this module.
 
 =back
 
