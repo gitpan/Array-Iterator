@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 13;
+use Test::More tests => 15;
 use Test::Exception;
 
 BEGIN { 
@@ -21,13 +21,24 @@ throws_ok {
 # check that it does not allow non-array ref paramaters
 throws_ok {
     my $i = Array::Iterator->new({});
-} qr/^Incorrect Type \: the argument must be an array reference/, 
+} qr/^Incorrect type \: HASH reference must contain the key __array__/, 
   '... we got the error we expected';
 
 # or single element arrays (cause they make no sense)
 throws_ok {
     my $i = Array::Iterator->new(1);
-} qr/^Incorrect Type \: the argument must be an array reference/, 
+} qr/^Incorrect Type \: the argument must be an array or hash reference/, 
+  '... we got the error we expected';
+  
+# verify the HASH ref sanity checks
+throws_ok {
+    my $i = Array::Iterator->new({ no_array_key => [] });
+} qr/^Incorrect type \: HASH reference must contain the key __array__/,
+  '... we got the error we expected';
+
+throws_ok {
+    my $i = Array::Iterator->new({ __array__ => "not an array ref" });
+} qr/^Incorrect type \: __array__ value must be an ARRAY reference/,
   '... we got the error we expected';
 
 throws_ok {

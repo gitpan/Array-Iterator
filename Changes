@@ -1,5 +1,14 @@
 Revision history for Perl extension Array::Iterator.
 
+0.06 Fri July 8, 2005
+    - Fixed bug in Array::Iterator::peek(). 
+      Thanks to Hugo Cornelis for pointing it out
+        - added tests for this
+    - Added patch from Phillip Moore to support
+      *single element iteration* using the hash-ref
+      constructor option.
+        - added tests and docs for this (also from Phillip :)
+
 0.05 Mon July 15, 2004
     - added a getLegnth method and tested it
     - changed how currentIndex deals with index of 0, it

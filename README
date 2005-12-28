@@ -1,4 +1,4 @@
-Array::Iterator version 0.05
+Array::Iterator version 0.06
 ===========================
 
 INSTALLATION
@@ -18,7 +18,7 @@ This module requires these other modules and libraries:
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2004 Infinity Interactive, Inc.
+Copyright (C) 2004, 255 Infinity Interactive, Inc.
 
 http://www.iinteractive.com
 

@@ -1,6 +1,7 @@
 Changes
 Makefile.PL
 MANIFEST
+META.yml
 README
 lib/Array/Iterator.pm
 lib/Array/Iterator/BiDirectional.pm
@@ -11,3 +12,5 @@ t/20_Array_Iterator_exceptions.t
 t/30_Array_Iterator_BiDirectional_test.t
 t/40_Array_Iterator_Circular_test.t
 t/50_Array_Iterator_Reusable_test.t
+t/pod.t
+t/pod_coverage.t
