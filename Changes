@@ -1,7 +1,19 @@
 Revision history for Perl extension Array::Iterator.
 
+0.07     2011-09-09 (Steven Haryanto)
+
+         - Take over maintenance from Stevan Little.
+
+         - Now uses Dist::Zilla and git.
+
+         - Add lowercase method name aliases (has_next() as well as hasNext(),
+           etc). The lowercase method names are now the documented ones.
+
+         - Add iterated() to check whether an iteration has been done (i.e.
+           next(), or get_next(), or previous(), etc has been called).
+
 0.06 Fri July 8, 2005
-    - Fixed bug in Array::Iterator::peek(). 
+    - Fixed bug in Array::Iterator::peek().
       Thanks to Hugo Cornelis for pointing it out
         - added tests for this
     - Added patch from Phillip Moore to support
@@ -12,7 +24,7 @@ Revision history for Perl extension Array::Iterator.
 0.05 Mon July 15, 2004
     - added a getLegnth method and tested it
     - changed how currentIndex deals with index of 0, it
-      now does it correctly. 
+      now does it correctly.
     - made current use currentIndex to get the current
       index
     - made Array::Iterator more subclass friendly by adding
@@ -20,17 +32,17 @@ Revision history for Perl extension Array::Iterator.
     - added some subclasses:
         - Array::Iterator::BiDirectional
         - Array::Iterator::Circular
-        - Array::Iterator::Reusable        
+        - Array::Iterator::Reusable
     - created tests for all these new modules
 
 0.04 Thurs May 6 2004
-    - Changed current and currentIndex to refer to the 
+    - Changed current and currentIndex to refer to the
       same value (and index) of the last item dispensed
       by the next method. This is more in line with what
       they should do. Prior to this version they returned
-      the current index which was actually the one past the 
+      the current index which was actually the one past the
       last call to next.
-    - tested these changes and altered tests which used the 
+    - tested these changes and altered tests which used the
       old versions.
     - updated documentation to reflect change
 

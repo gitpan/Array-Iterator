@@ -1,12 +1,21 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         Array-Iterator
-version:      0.06
-version_from: lib/Array/Iterator.pm
-installdirs:  site
+---
+abstract: 'A simple class for iterating over Perl arrays'
+author:
+  - 'Steven Haryanto <stevenharyanto@gmail.com>'
+build_requires:
+  Module::Build: 0.3601
+configure_requires:
+  Module::Build: 0.3601
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.200007, CPAN::Meta::Converter version 2.110930'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Array-Iterator
 requires:
-    Test::Exception:               0.15
-    Test::More:                    0.47
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.21
+  Test::Exception: 0
+resources:
+  homepage: http://search.cpan.org/dist/Array-Iterator/
+  repository: http://github.com/sharyanto/perl-Array-Iterator
+version: 0.07

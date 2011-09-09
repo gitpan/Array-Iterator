@@ -3,10 +3,10 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More tests => 12;
 
-BEGIN { 
-    use_ok('Array::Iterator::Reusable') 
+BEGIN {
+    use_ok('Array::Iterator::Reusable')
 };
 
 can_ok("Array::Iterator::Reusable", 'new');
@@ -16,10 +16,12 @@ isa_ok($i, 'Array::Iterator::Reusable');
 isa_ok($i, 'Array::Iterator');
 
 can_ok($i, 'getNext');
+can_ok($i, 'get_next');
 # exhaust our iterator
 1 while $i->getNext();
 
 can_ok($i, 'hasNext');
+can_ok($i, 'has_next');
 ok(!$i->hasNext(), '... our iterator is exhausted');
 
 can_ok($i, 'reset');
