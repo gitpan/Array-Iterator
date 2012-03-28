@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 15;
+use Test::More tests => 19;
 use Test::Exception;
 
 BEGIN { 
@@ -69,6 +69,24 @@ throws_ok {
 } qr/^Out Of Bounds \: no more elements/, 
   '... we got the error we expected';
   
+# test arbitrary lookups edge cases
+{
+    my $iterator2 = Array::Iterator->new(@control);
+
+    throws_ok {
+        $iterator2->has_next(0)
+    } qr/\Qhas_next(0) doesn't make sense/, '... should not be able to call has_next() with zero argument';
+    throws_ok {
+        $iterator2->has_next(-1)
+    } qr/\Qhas_next() with negative argument doesn't make sense/, '... should not be able to call has_next() with negative argument';
+    throws_ok {
+        $iterator2->peek(0)
+    } qr/\Qpeek(0) doesn't make sense/, '... should not be able to call peek() with zero argument';
+    throws_ok {
+        $iterator2->peek(-1)
+    } qr/\Qpeek() with negative argument doesn't make sense/, '... should not be able to call peek() with negative argument';
+}
+
 # check our protected methods
 throws_ok {
     $iterator->_current_index();
@@ -81,7 +99,6 @@ throws_ok {
 throws_ok {
     $iterator->_getItem();
 } qr/Illegal Operation/, '... got the error we expected';
-  
 
 # -----------------------------------------------
 # NOTE:

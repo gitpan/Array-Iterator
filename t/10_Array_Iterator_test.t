@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 85;
+use Test::More tests => 99;
 
 BEGIN {
     use_ok('Array::Iterator')
@@ -132,4 +132,33 @@ ok(!$iterator2->hasNext(), '... we should have no more');
 
     # we should have no more
     ok(!$iterator4->hasNext(), '... we should have no more');
+}
+
+{
+    # check arbitrary position lookups
+    my $iterator5 = Array::Iterator->new(@control);
+
+    # when not iterated()
+    ok($iterator5->has_next,     '... we should have next element');
+    ok($iterator5->has_next(1),  '... should be the same as has_next()');
+    ok($iterator5->has_next(2),  '... we should have 2nd next element');
+    ok($iterator5->has_next(5),  '... we should have 5th next element');
+    ok(!$iterator5->has_next(6), '... we should not have 6th next element');
+
+    cmp_ok($iterator5->peek(1), '==', $iterator5->peek, '... should be the same as peek()');
+    cmp_ok($iterator5->peek(2), '==', 2,                '... we should get 2nd next element');
+    cmp_ok($iterator5->peek(5), '==', 5,                '... we should get 5th next element');
+
+    ok(!defined($iterator5->peek(6)), '... peek() outside of the bounds should return undef');
+
+    $iterator5->next;
+
+    # when iterated()
+    ok($iterator5->has_next(4),       '... we should have 4th next element after iterating');
+    ok(!$iterator5->has_next(5),      '... we should not have 5th next element after iterating');
+
+    cmp_ok($iterator5->peek(1), '==', $iterator5->peek, '... should be the same as peek() after iterating');
+    cmp_ok($iterator5->peek(2), '==', 3,                '... we should get 2nd next element after iterating');
+
+    ok(!defined($iterator5->peek(5)), '... peek() outside of the bounds should return undef after iterating');
 }

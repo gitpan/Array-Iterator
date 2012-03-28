@@ -1,4 +1,12 @@
-Revision history for Perl extension Array::Iterator.
+Revision history for Perl extension Array-Iterator.
+
+0.08     2012-03-28 (Steven Haryanto)
+
+         - peek(), look_back(), has_next(), has_previous() now accept optional
+           integer argument for arbitrary lookup, e.g. peek(2) looks at the next
+           next item, peek(1) is the same as peek() (implemented by Alexey
+           Surikov, github#2).
+
 
 0.07     2011-09-09 (Steven Haryanto)
 
@@ -11,6 +19,7 @@ Revision history for Perl extension Array::Iterator.
 
          - Add iterated() to check whether an iteration has been done (i.e.
            next(), or get_next(), or previous(), etc has been called).
+
 
 0.06 Fri July 8, 2005
     - Fixed bug in Array::Iterator::peek().

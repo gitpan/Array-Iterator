@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 32;
+use Test::More tests => 48;
 use Test::Exception;
 
 BEGIN {
@@ -72,6 +72,41 @@ throws_ok {
 } qr/Out Of Bounds \: no more elements/, '... this should die if i try again';
 
 
+my $iterator3 = Array::Iterator::BiDirectional->new(@control);
 
+# when not iterated()
+ok(!$iterator3->has_previous(1), '... should be the same as has_previous()');
+ok(!$iterator3->has_previous(2), '... should not have 2nd previous element');
+ok(!$iterator3->has_previous(3), '... should not have 3rd previous element');
 
+ok(!defined($iterator3->look_back(1)), '... should be the same as look_back()');
+ok(!defined($iterator3->look_back(2)), '... look_back() outside of the bounds should return undef');
+ok(!defined($iterator3->look_back(5)), '... look_back() outside of the bounds should return undef');
 
+$iterator3->next while $iterator3->has_next;
+
+# when iterated()
+ok($iterator3->has_previous(1), '... should be the same as has_previous() after iterating');
+ok($iterator3->has_previous(2), '... should have 2nd previous element');
+
+cmp_ok($iterator3->look_back(1), '==', $iterator3->look_back, '... should be the same as look_back() after iterating');
+cmp_ok($iterator3->look_back(2), '==', 3,                     '... should get 2nd previous element after iterating');
+cmp_ok($iterator3->look_back(3), '==', 2,                     '... should get 3rd previous element after iterating');
+ok(!defined($iterator3->look_back(6)), '... look_back() outside of the bounds should return undef after iterating');
+
+# check arbitrary lookup edge cases
+throws_ok {
+    $iterator3->has_previous(0)
+} qr/\Qhas_previous(0) doesn't make sense/, '... should not be able to call has_previous() with zero argument';
+
+throws_ok {
+    $iterator3->has_previous(-1)
+} qr/\Qhas_previous() with negative argument doesn't make sense/, '... should not be able to call has_previous() with negative argument';
+
+throws_ok {
+    $iterator3->look_back(0)
+} qr/\Qlook_back(0) doesn't make sense/, '... should not be able to call look_back() with zero argument';
+
+throws_ok {
+    $iterator3->look_back(-1)
+} qr/\Qlook_back() with negative argument doesn't make sense/, '... should not be able to call look_back() with negative argument';
