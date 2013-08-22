@@ -3,6 +3,7 @@ Changes
 LICENSE
 MANIFEST
 MANIFEST.SKIP
+META.json
 META.yml
 README
 dist.ini
@@ -18,3 +19,4 @@ t/40_Array_Iterator_Circular_test.t
 t/50_Array_Iterator_Reusable_test.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
+t/release-rinci.t

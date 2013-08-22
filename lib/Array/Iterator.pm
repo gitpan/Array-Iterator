@@ -3,7 +3,7 @@ package Array::Iterator;
 use strict;
 use warnings;
 
-our $VERSION = '0.08'; # VERSION
+our $VERSION = '0.09'; # VERSION
 
 ### constructor
 
@@ -167,17 +167,19 @@ sub get_length {
 sub getLength { my $self = shift; $self->get_length(@_) }
 
 1;
+#ABSTRACT: A simple class for iterating over Perl arrays
 
+__END__
 
 =pod
 
 =head1 NAME
 
-Array::Iterator
+Array::Iterator - A simple class for iterating over Perl arrays
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -226,6 +228,8 @@ iterator. It is not recommended to alter the array during iteration, however
 no attempt is made to enforce this (although I will if I can find an efficient
 means of doing so). This class only intends to provide a clear and simple
 means of generic iteration, nothing more (yet).
+
+=for Pod::Coverage .+
 
 =head1 METHODS
 
@@ -498,14 +502,9 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-__END__
-#ABSTRACT: A simple class for iterating over Perl arrays
-

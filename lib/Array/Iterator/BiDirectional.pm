@@ -4,7 +4,7 @@ package Array::Iterator::BiDirectional;
 use strict;
 use warnings;
 
-our $VERSION = '0.08'; # VERSION
+our $VERSION = '0.09'; # VERSION
 
 use Array::Iterator;
 our @ISA = qw(Array::Iterator);
@@ -59,6 +59,7 @@ sub lookBack { my $self = shift; $self->look_back(@_) }
 1;
 #ABSTRACT: A subclass of Array::Iterator to allow forwards and backwards iteration
 
+__END__
 
 =pod
 
@@ -68,7 +69,7 @@ Array::Iterator::BiDirectional - A subclass of Array::Iterator to allow forwards
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -91,6 +92,8 @@ version 0.08
 =head1 DESCRIPTION
 
 Occasionally it is useful for an iterator to go in both directions, forward and backward. One example would be token processing. When looping though tokens it is sometimes necessary to advance forward looking for a match to a rule. If the match fails, a bi-directional iterator can be moved back so that the next rule can be tried.
+
+=for Pod::Coverage .+
 
 =head1 METHODS
 
@@ -151,13 +154,9 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-__END__
-

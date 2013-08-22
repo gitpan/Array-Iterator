@@ -4,7 +4,7 @@ package Array::Iterator::Circular;
 use strict;
 use warnings;
 
-our $VERSION = '0.08'; # VERSION
+our $VERSION = '0.09'; # VERSION
 
 use Array::Iterator;
 our @ISA = qw(Array::Iterator);
@@ -59,6 +59,7 @@ sub getLoopCount { my $self = shift; $self->get_loop_count(@_) }
 1;
 #ABSTRACT: A subclass of Array::Iterator to allow circular iteration
 
+__END__
 
 =pod
 
@@ -68,7 +69,7 @@ Array::Iterator::Circular - A subclass of Array::Iterator to allow circular iter
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -97,6 +98,8 @@ version 0.08
 =head1 DESCRIPTION
 
 This iterator will loop continuosly as long as C<next> or C<get_next> is called. The C<has_next> method will always return true (C<1>), since the list will always loop back. This is useful when you need a list to repeat itself, but don't want to (or care to) know that it is doing so.
+
+=for Pod::Coverage .+
 
 =head1 METHODS
 
@@ -161,13 +164,9 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-__END__
-

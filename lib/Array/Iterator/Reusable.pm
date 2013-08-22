@@ -4,7 +4,7 @@ package Array::Iterator::Reusable;
 use strict;
 use warnings;
 
-our $VERSION = '0.08'; # VERSION
+our $VERSION = '0.09'; # VERSION
 
 use Array::Iterator;
 our @ISA = qw(Array::Iterator);
@@ -18,6 +18,7 @@ sub reset {
 1;
 #ABSTRACT: A subclass of Array::Iterator to allow reuse of iterators
 
+__END__
 
 =pod
 
@@ -27,7 +28,7 @@ Array::Iterator::Reusable - A subclass of Array::Iterator to allow reuse of iter
 
 =head1 VERSION
 
-version 0.08
+version 0.09
 
 =head1 SYNOPSIS
 
@@ -46,6 +47,8 @@ version 0.08
 =head1 DESCRIPTION
 
 Sometimes you don't want to have to throw out your iterator each time you have exhausted it. This class adds the C<reset> method to allow reuse of an iterator. This is a very simple addition to the Array::Iterator class of a single method.
+
+=for Pod::Coverage .+
 
 =head1 METHODS
 
@@ -90,13 +93,9 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-
-__END__
-

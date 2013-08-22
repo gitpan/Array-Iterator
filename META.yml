@@ -4,18 +4,17 @@ author:
   - 'Steven Haryanto <stevenharyanto@gmail.com>'
 build_requires:
   Module::Build: 0.3601
+  Test::Exception: 0
 configure_requires:
   Module::Build: 0.3601
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640'
+generated_by: 'Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Array-Iterator
-requires:
-  Test::Exception: 0
 resources:
   homepage: http://search.cpan.org/dist/Array-Iterator/
   repository: http://github.com/sharyanto/perl-Array-Iterator
-version: 0.08
+version: 0.09
