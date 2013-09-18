@@ -4,7 +4,7 @@ package Array::Iterator::Circular;
 use strict;
 use warnings;
 
-our $VERSION = '0.10'; # VERSION
+# VERSION
 
 use Array::Iterator;
 our @ISA = qw(Array::Iterator);
@@ -59,17 +59,7 @@ sub getLoopCount { my $self = shift; $self->get_loop_count(@_) }
 1;
 #ABSTRACT: A subclass of Array::Iterator to allow circular iteration
 
-__END__
-
-=pod
-
-=head1 NAME
-
-Array::Iterator::Circular - A subclass of Array::Iterator to allow circular iteration
-
-=head1 VERSION
-
-version 0.10
+=for Pod::Coverage .+
 
 =head1 SYNOPSIS
 
@@ -99,8 +89,6 @@ version 0.10
 
 This iterator will loop continuosly as long as C<next> or C<get_next> is called. The C<has_next> method will always return true (C<1>), since the list will always loop back. This is useful when you need a list to repeat itself, but don't want to (or care to) know that it is doing so.
 
-=for Pod::Coverage .+
-
 =head1 METHODS
 
 This is a subclass of Array::Iterator, only those methods that have been added or altered are documented here, refer to the Array::Iterator documentation for more information.
@@ -113,7 +101,7 @@ Since we endlessly loop, this will always return true (C<1>).
 
 =item B<next>
 
-This will return the next item in the array, and when it reaches the end of the array, it will loop back to the beginning again.
+This will return the next item in the array, and when it reaches the end of the array, it will loop back to the begining again.
 
 =item B<get_next>
 
@@ -157,16 +145,5 @@ L<http://www.iinteractive.com>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-=head1 AUTHOR
-
-Steven Haryanto <stevenharyanto@gmail.com>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is copyright (c) 2013 by Steven Haryanto.
-
-This is free software; you can redistribute it and/or modify it under
-the same terms as the Perl 5 programming language system itself.
 
 =cut

@@ -3,12 +3,14 @@ abstract: 'A simple class for iterating over Perl arrays'
 author:
   - 'Steven Haryanto <stevenharyanto@gmail.com>'
 build_requires:
-  Module::Build: 0.3601
+  IO::Handle: 0
+  IPC::Open3: 0
   Test::Exception: 0
+  Test::More: 0
 configure_requires:
-  Module::Build: 0.3601
+  ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560'
+generated_by: 'Dist::Zilla version 4.300038, CPAN::Meta::Converter version 2.132510'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -17,4 +19,4 @@ name: Array-Iterator
 resources:
   homepage: http://search.cpan.org/dist/Array-Iterator/
   repository: http://github.com/sharyanto/perl-Array-Iterator
-version: 0.09
+version: 0.10

@@ -2,7 +2,7 @@ NAME
     Array::Iterator - A simple class for iterating over Perl arrays
 
 VERSION
-    version 0.09
+    version 0.10
 
 SYNOPSIS
       use Array::Iterator;
@@ -209,7 +209,7 @@ SEE ALSO
         the start again.
 
     Array::Iterator::Reusable
-        This iterator can be reset to its begining and used again.
+        This iterator can be reset to its beginning and used again.
 
     The Design Patterns book by the Gang of Four, specifically the Iterator
     pattern.
