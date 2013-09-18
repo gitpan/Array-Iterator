@@ -7,13 +7,9 @@ META.yml
 Makefile.PL
 README
 dist.ini
-fix-spelling.patch
 lib/Array/Iterator.pm
-lib/Array/Iterator.pm.orig
 lib/Array/Iterator/BiDirectional.pm
-lib/Array/Iterator/BiDirectional.pm.orig
 lib/Array/Iterator/Circular.pm
-lib/Array/Iterator/Circular.pm.orig
 lib/Array/Iterator/Reusable.pm
 t/00-compile.t
 t/10_Array_Iterator_test.t

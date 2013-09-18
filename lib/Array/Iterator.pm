@@ -3,7 +3,7 @@ package Array::Iterator;
 use strict;
 use warnings;
 
-our $VERSION = '0.10'; # VERSION
+our $VERSION = '0.11'; # VERSION
 
 ### constructor
 
@@ -179,7 +179,7 @@ Array::Iterator - A simple class for iterating over Perl arrays
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 

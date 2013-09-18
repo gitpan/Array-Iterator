@@ -21,12 +21,12 @@ my %WriteMakefileArgs = (
   "NAME" => "Array::Iterator",
   "PREREQ_PM" => {},
   "TEST_REQUIRES" => {
-    "IO::Handle" => 0,
-    "IPC::Open3" => 0,
+    "Capture::Tiny" => 0,
     "Test::Exception" => 0,
-    "Test::More" => 0
+    "Test::More" => "0.88",
+    "blib" => 0
   },
-  "VERSION" => "0.10",
+  "VERSION" => "0.11",
   "test" => {
     "TESTS" => "t/*.t"
   }

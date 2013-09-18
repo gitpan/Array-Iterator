@@ -4,7 +4,7 @@ package Array::Iterator::Reusable;
 use strict;
 use warnings;
 
-our $VERSION = '0.10'; # VERSION
+our $VERSION = '0.11'; # VERSION
 
 use Array::Iterator;
 our @ISA = qw(Array::Iterator);
@@ -28,7 +28,7 @@ Array::Iterator::Reusable - A subclass of Array::Iterator to allow reuse of iter
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 

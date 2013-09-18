@@ -1,5 +1,11 @@
 Revision history for Perl extension Array-Iterator
 
+0.11     2013-09-18 (SHARYANTO)
+
+         - No functional changes. Rerelease due to inclusion of unneeded files
+           (steven--).
+
+
 0.10     2013-09-18 (SHARYANTO)
 
          - No functional changes. Apply spelling patch from Debian maintainer
